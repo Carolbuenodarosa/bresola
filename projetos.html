@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <title>Bresola Terraplanagem - Tradição e Engenharia de Infraestrutura</title>
+    <style>
+        /* ==========================================================================
+   1. CONFIGURAÇÕES GERAIS E IDENTIDADE WEG / CORPORATIVA
+   ========================================================================== */
+        :root {
+            --azul-weg: #005792;
+            --azul-escuro: #003366;
+            --azul-cadete: #1e3e62;
+            --cinza-fundo: #f4f7f9;
+            --cinza-texto: #555555;
+            --cor-texto: #ffffff;
+            --cor-texto-rodape-mutado: #94a3b8;
+
+            /* Paleta da Página de Projetos (Ficha de Obra) */
+            --rv-asfalto: #1f3b80;
+            --rv-asfalto-claro: #2c2a26;
+            --rv-concreto: #eae6da;
+            --rv-concreto-escuro: #d8d2c0;
+            --rv-amarelo: #294084;
+            --rv-laranja: #334f92;
+            --rv-terra: #8a6643;
+            --rv-grafite-texto: #4a473f;
+            --rv-fonte-display: 'Overpass', Arial, sans-serif;
+            --rv-fonte-mono: 'Roboto Mono', monospace;
+
+            /* Paleta Corporativa Sóbria */
+            --azul-petroleo: #0b2545;
+            --azul-medio: #134074;
+            --preto-grafite: #1d2d44;
+
+            /* Mapeamento de Variáveis para a Seção WEG */
+            --primary-blue: var(--azul-weg);
+            --accent-cyan: var(--rv-laranja);
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --text-light: #666666;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Rubik", sans-serif;
+            font-optical-sizing: auto;
+            background-color: #f4f4f4;
+            line-height: 1.5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==========================================================================
+   2. CABEÇALHO E NAVEGAÇÃO (HEADER) — TRANSPARENTE E RESPONSIVO
+   ========================================================================== */
+        .main-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+            padding: 25px 0;
+        }
+
+        .main-header.scrolled {
+            background: rgba(9, 52, 104, 0.98);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo img {
+            height: 100px;
+            width: auto;
+            display: block;
+            transition: height 0.4s ease;
+        }
+
+        .main-header.scrolled .logo img {
+            height: 42px;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 400;
+            font-family: "Rubik", sans-serif;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--rv-laranja);
+        }
+
+        .arrow {
+            font-size: 10px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--azul-petroleo);
+            display: none;
+            flex-direction: column;
+            min-width: 180px;
+            padding: 10px 0;
+            border-top: 2px solid var(--rv-laranja);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: flex;
+        }
+
+        .dropdown-menu li {
+            padding: 8px 20px;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+            z-index: 1002;
+        }
+
+        .menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .bar {
+            width: 22px;
+            height: 2px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1), opacity 0.3s ease;
+        }
+
+        .menu-toggle.open .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .menu-toggle.open .bar:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .menu-toggle.open .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                /* Mudado de 300px para 100% para ocupar a tela toda */
+                height: 100vh;
+                background-color: rgba(40, 94, 135, 0.98);
+                padding: 0;
+                /* Zerado para não desalinhar o centro */
+                box-shadow: none;
+                /* Tela cheia não precisa de sombra lateral */
+                transition: right 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
+
+                /* Centralização vertical e horizontal do menu na tela */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1001;
+                /* Garante que fique acima de quase tudo */
+            }
+
+            .nav-menu.open {
+                right: 0;
+            }
+
+            .nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+                /* Mudado de flex-start para center */
+                justify-content: center;
+                gap: 35px;
+                /* Aumentado um pouco o espaço para o visual fullscreen */
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .nav-menu a {
+                font-size: 24px;
+                /* Aumentado para destacar mais na tela cheia */
+                text-align: center;
+                /* Garante o texto centralizado */
+                display: block;
+                width: 100%;
+            }
+
+            /* Ajuste para o Dropdown no Mobile */
+            .dropdown-menu {
+                position: relative;
+                top: 0;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.15);
+                box-shadow: none;
+                border-top: none;
+                border-left: none;
+                /* Removido borda lateral */
+                border-bottom: 2px solid var(--rv-laranja);
+                /* Sublinhado sutil se preferir */
+                margin-top: 15px;
+                width: 100%;
+                align-items: center;
+                /* Centraliza os sub-links */
+            }
+
+            .dropdown-menu li {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .overlay {
+                /* Como o menu agora ocupa 100% da tela, o overlay deixa de ser 
+           tão necessário, mas mantemos o padrão caso queira usar */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: none;
+                z-index: 999;
+            }
+        }
+
+        /* ==========================================================================
+   3. PÁGINA DE PROJETOS — IDENTIDADE "FICHA DE OBRA"
+   ========================================================================== */
+        main.rv-main {
+            padding-top: 0;
+            font-family: "Rubik", sans-serif;
+            background: WHITE;
+            overflow-x: hidden;
+        }
+
+        .rv-faixa {
+            height: 10px;
+            background: repeating-linear-gradient(90deg,
+                    var(--rv-amarelo) 0px,
+                    var(--rv-amarelo) 38px,
+                    transparent 38px,
+                    transparent 66px);
+        }
+
+        .rv-hero {
+            position: relative;
+            background: #000;
+            color: var(--rv-concreto);
+            padding: 160px 30px 60px;
+            min-height: 250px;
+            height: auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .rv-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(31, 58, 128, 0.275);
+            z-index: 1;
+        }
+
+        .rv-hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .rv-hero-conteudo,
+        .rv-corte-wrap {
+            position: relative;
+            z-index: 2;
+        }
+
+        .rv-hero-conteudo {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .rv-placa {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Rubik", sans-serif;
+            font-size: 12.5px;
+            letter-spacing: 0.08em;
+            color: var(--rv-asfalto);
+            background: white;
+            padding: 7px 14px;
+            margin-bottom: 26px;
+        }
+
+        .rv-hero-conteudo h1 {
+            font-weight: 300;
+            text-transform: uppercase;
+            font-size: 40px;
+            font-family: "Rubik", sans-serif;
+            line-height: 1.1;
+            max-width: 820px;
+            letter-spacing: -0.01em;
+        }
+
+        .rv-hero-conteudo>p {
+            max-width: 540px;
+            font-size: 16.5px;
+            color: #c7c3b8;
+            margin-top: 20px;
+        }
+
+        .rv-corte-wrap {
+            max-width: 1300px;
+            margin: 46px auto 0;
+        }
+
+        .rv-corte-legenda {
+            font-family: "Rubik", sans-serif;
+            font-size: 11.5px;
+            letter-spacing: 0.06em;
+            color: #9a9588;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .rv-corte-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .rv-ficha {
+            background: var(--rv-asfalto-claro);
+            border-top: 1px solid #3a372f;
+        }
+
+        .rv-ficha-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .rv-ficha-item {
+            padding: 30px 28px;
+            border-left: 1px dashed #524e44;
+        }
+
+        .rv-ficha-item:first-child {
+            border-left: none;
+        }
+
+        .rv-ficha-item .num {
+            font-family: "Rubik", sans-serif;
+            font-size: 30px;
+            color: var(--rv-amarelo);
+        }
+
+        .rv-ficha-item .legenda {
+            font-family: "Rubik", sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #b6b1a3;
+            margin-top: 6px;
+        }
+
+        .rv-intro {
+            max-width: 1300px;
+            margin: 64px auto 10px;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 0.9fr 1.5fr;
+            gap: 50px;
+        }
+
+        .rv-intro .rotulo {
+            font-family: "Rubik", sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--rv-laranja);
+            margin-bottom: 10px;
+        }
+
+        .rv-intro h2 {
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 30px;
+            color: var(--rv-asfalto);
+            line-height: 1.1;
+        }
+
+        .rv-intro p {
+            color: var(--rv-grafite-texto);
+            font-size: 16px;
+            align-self: end;
+        }
+
+        .rv-obras {
+            max-width: 1300px;
+            margin: 34px auto 0;
+            padding: 0 30px 30px;
+        }
+
+        .rv-obras-cabecalho {
+            display: grid;
+            grid-template-columns: 90px 1.3fr 1.1fr 0.8fr 2fr;
+            font-family: "Rubik", sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #8c886f;
+            padding: 0 18px 10px;
+            border-bottom: 2px solid var(--rv-asfalto);
+        }
+
+        .rv-obra-linha {
+            display: grid;
+            grid-template-columns: 90px 1.3fr 1.1fr 0.8fr 2fr;
+            align-items: center;
+            padding: 20px 18px;
+            border-bottom: 1px dashed var(--rv-concreto-escuro);
+            border-left: 4px solid transparent;
+            transition: border-left-color 0.18s ease, background 0.18s ease;
+        }
+
+        .rv-obra-linha:hover {
+            border-left-color: var(--rv-laranja);
+            background: #f3f0e4;
+        }
+
+        .rv-obra-codigo {
+            font-family: "Rubik", sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--rv-laranja);
+        }
+
+        .rv-obra-titulo {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--rv-asfalto);
+            text-transform: uppercase;
+            line-height: 1.2;
+            font-family: "Rubik", sans-serif;
+        }
+
+        .rv-obra-titulo span {
+            display: block;
+            font-family: "Rubik", sans-serif;
+            font-weight: 500;
+            font-size: 11.5px;
+            text-transform: none;
+            color: #8c886f;
+            margin-top: 3px;
+        }
+
+        .rv-obra-servico {
+            font-family: "Rubik", sans-serif;
+            font-size: 12px;
+            color: var(--rv-grafite-texto);
+        }
+
+        .rv-obra-extensao {
+            font-family: "Rubik", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--rv-asfalto);
+        }
+
+        .rv-obra-desc {
+            font-size: 14px;
+            color: var(--rv-grafite-texto);
+            padding-right: 10px;
+        }
+
+        .rv-cta {
+            background: #134074;
+            color: var(--rv-concreto);
+            text-align: center;
+            padding: 64px 30px 56px;
+        }
+
+        .rv-cta h2 {
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .rv-cta p {
+            color: #b8b3a6;
+            font-size: 15.5px;
+            margin-bottom: 28px;
+        }
+
+        .rv-cta-botao {
+            display: inline-block;
+            position: relative;
+            background: #e2eaf2;
+            color: var(--rv-asfalto);
+            text-decoration: none;
+            font-family: "Rubik", sans-serif;
+            font-weight: 600;
+            font-size: 13.5px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 16px 32px;
+            transition: background 0.2s ease;
+        }
+
+        .rv-cta-botao:hover {
+            background: #133458;
+        }
+
+        .container-ops {
+            display: flex;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            gap: 40px;
+            font-family: "Rubik", sans-serif;
+            align-items: flex-start;
+        }
+
+        /* ==========================================================================
+   4. SEÇÃO CORPORATIVA (GRID DE ENGENHARIA PESADA)
+   ========================================================================== */
+        .secao-corporativa {
+            max-width: 1280px;
+            margin: 60px auto;
+            padding: 0 30px;
+            font-family: "Rubik", sans-serif;
+        }
+
+        .topo-bloco {
+            margin-bottom: 45px;
+            border-left: 4px solid var(--azul-petroleo);
+            padding-left: 20px;
+        }
+
+        .subtitulo-institucional {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--azul-medio);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .titulo-institucional {
+            font-size: 2.2rem;
+            color: var(--preto-grafite);
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .grid-corporativo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .card-corporativo {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+        }
+
+        .wrapper-imagem {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background-color: #e2e8f0;
+        }
+
+        .wrapper-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .wrapper-conteudo {
+            padding: 25px;
+            background-color: var(--cinza-fundo);
+        }
+
+        .categoria-projeto {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--azul-medio);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nome-projeto {
+            font-size: 1.25rem;
+            color: var(--azul-petroleo);
+            margin: 0 0 15px 0;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .local-projeto {
+            font-size: 0.88rem;
+            color: var(--cinza-texto);
+            margin: 0;
+            border-top: 1px solid #d1d5db;
+            padding-top: 12px;
+        }
+
+        /* ==========================================================================
+   5. SEÇÃO NOVIDADES DA WEG (CARROSSEL DINÂMICO CENTRALIZADO)
+   ========================================================================== */
+        .weg-section {
+            max-width: 1200px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 30px;
+            /* Padding interno para afastar das bordas do card */
+            margin: 100px auto;
+            /* CENTRALIZAÇÃO: Margens automáticas nas laterais */
+            border-radius: 4px;
+        }
+
+        .weg-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        .weg-title-container {
+            position: relative;
+        }
+
+        .weg-title {
+            font-size: 24px;
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .weg-title-container::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent-cyan);
+        }
+
+        .weg-nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .weg-nav-btn {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--primary-blue);
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .weg-nav-btn:hover {
+            background-color: var(--primary-blue);
+            color: #ffffff;
+            border-color: var(--primary-blue);
+        }
+
+        .weg-carousel-container {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .weg-grid {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.4s ease-in-out;
+            will-change: transform;
+        }
+
+        .weg-card {
+            flex: 0 0 calc(25% - 15px);
+            min-width: 250px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+        }
+
+        .weg-card-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            background-color: #eaeaea;
+        }
+
+        .weg-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .weg-card-image-wrapper::after {
+            content: 'weg';
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 92, 153, 0.85);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .weg-card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 45px;
+        }
+
+        .weg-card-title {
+            font-size: 14px;
+            color: var(--primary-blue);
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            text-decoration: none;
+        }
+
+        .weg-card-title:hover {
+            text-decoration: underline;
+        }
+
+        .weg-card-excerpt {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .weg-btn-plus {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--accent-cyan);
+            color: #ffffff;
+            width: 35px;
+            height: 35px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+
+        .weg-btn-plus:hover {
+            background-color: var(--primary-blue);
+        }
+
+        /* ==========================================================================
+   6. RODAPÉ (FOOTER)
+   ===  /* Rodapé */
+        .site-footer {
+            background-color: #235a91;
+            color: var(--cor-texto);
+            padding-top: 50px;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: var(--cor-texto);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        .footer-logo-top img {
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .footer-middle {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding-bottom: 80px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1 1 250px;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .contact-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: white;
+            stroke-width: 1.5;
+        }
+
+        .contact-text h4 {
+            margin: 0 0 5px 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .contact-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: white;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .social-icons svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--cor-texto);
+        }
+
+        /* Rodapé Inferior */
+        .footer-bottom {
+            background-color: var(--cor-fundo-inferior);
+            color: var(--cor-texto-inferior);
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        .footer-bottom-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .floating-logo-wrapper {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            background-color: var(--cor-fundo-inferior);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 -10px 15px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+
+        .floating-logo-wrapper img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .developer-badge {
+            border: 1px solid #ddd;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+
+        @media (max-width: 900px) {
+            .rv-ficha-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .rv-ficha-item:nth-child(3) {
+                border-left: none;
+            }
+
+            .rv-intro {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .rv-obras-cabecalho {
+                display: none;
+            }
+
+            .rv-obra-linha {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                padding: 18px 16px;
+            }
+
+            .rv-obra-codigo::before {
+                content: "OBRA Nº ";
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 15px 0;
+            }
+
+            .rv-hero {
+                padding: 140px 20px 40px;
+            }
+
+            .rv-hero-conteudo h1 {
+                font-size: 28px;
+            }
+
+            .container-ops {
+                flex-direction: column;
+                margin: 20px auto;
+            }
+
+            .titulo-institucional {
+                font-size: 1.8rem;
+            }
+
+            .secao-corporativa {
+                margin: 30px auto;
+            }
+
+            .weg-card {
+                flex: 0 0 calc(50% - 10px);
+            }
+
+            .weg-title {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .weg-card {
+                flex: 0 0 100%;
+            }
+        }
+
+        /* ==========================================================================
+   SEÇÃO PRODUTOS E SOLUÇÕES (PADRÃO CORPORATIVO CLEAN)
+   ========================================================================== */
+        :root {
+            --brand-blue: #005c99;
+            /* Azul dos títulos */
+            --cyan-button: #0091bd;
+            /* Azul turquesa dos botões Veja Mais */
+            --cyan-hover: #00769a;
+            /* Tom mais escuro para o hover do botão */
+            --gray-border: #e2e8f0;
+            /* Linhas sutis de divisão */
+            --gray-text: #666666;
+            /* Texto de descrição */
+        }
+
+        .produtos-section {
+            max-width: 1200px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 40px 20px;
+            margin: 50px auto;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .produtos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 35px;
+            border-bottom: 1px solid var(--gray-border);
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .produtos-title-container {
+            position: relative;
+        }
+
+        .produtos-title {
+            font-size: 28px;
+            color: var(--brand-blue);
+            font-weight: 400;
+            margin: 0;
+        }
+
+        /* O pequeno traço azul abaixo do título */
+        .produtos-title-container::after {
+            content: '';
+            position: absolute;
+            bottom: -21px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--cyan-button);
+        }
+
+        .produtos-nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .produtos-nav-btn {
+            background-color: #ffffff;
+            border: 1px solid var(--gray-border);
+            color: var(--cyan-button);
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .produtos-nav-btn:hover {
+            background-color: var(--cyan-button);
+            color: #ffffff;
+            border-color: var(--cyan-button);
+        }
+
+        .produtos-carousel-container {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .produtos-grid {
+            display: flex;
+            gap: 24px;
+            transition: transform 0.4s ease-in-out;
+            will-change: transform;
+        }
+
+        .produtos-card {
+            flex: 0 0 calc(25% - 18px);
+            /* 4 itens por linha no desktop */
+            min-width: 250px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            border: 1px solid var(--gray-border);
+            /* Adicionado para acabamento uniforme do card */
+        }
+
+        /* ALTERADO: Container agora força uma proporção e tamanho idênticos */
+        .produtos-card-image-wrapper {
+            width: 100%;
+            height: 200px;
+            /* Altura fixa para garantir a padronização */
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ALTERADO: Força todas as imagens a preencherem o espaço uniformemente sem distorcer */
+        .produtos-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Corta as sobras milimetricamente mantendo o foco centralizado */
+            display: block;
+        }
+
+        .produtos-card-content {
+            padding: 20px 15px;
+            flex-grow: 1;
+        }
+
+        .produtos-card-title {
+            font-size: 15px;
+            color: var(--brand-blue);
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            line-height: 1.3;
+        }
+
+        .produtos-card-excerpt {
+            font-size: 13px;
+            color: var(--gray-text);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Botão retangular "VEJA MAIS" na base do card */
+        .produtos-btn-vejamais {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #18497d;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 14px 0;
+            width: 100%;
+            transition: background-color 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: auto;
+            /* Garante alinhamento na base mesmo com textos diferentes */
+        }
+
+        .produtos-btn-vejamais:hover {
+            background-color: var(--cyan-hover);
+        }
+
+        .arrow-icon {
+            font-size: 10px;
+        }
+
+        /* ==========================================================================
+   RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================================================== */
+        @media (max-width: 1024px) {
+            .produtos-card {
+                flex: 0 0 calc(33.333% - 16px);
+                /* 3 itens em telas médias */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .produtos-title {
+                font-size: 22px;
+            }
+
+            .produtos-card {
+                flex: 0 0 calc(50% - 12px);
+                /* 2 itens em tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .produtos-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .produtos-nav-buttons {
+                align-self: flex-end;
+            }
+
+            .produtos-card {
+                flex: 0 0 100%;
+                /* 1 item por linha no celular */
+            }
+        }
+
+        .depoimentos-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .titulo-secao {
+            text-align: center;
+            color: #1e3a5f;
+            /* Azul escuro do cabeçalho */
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .linha-divisoria {
+            border: 0;
+            height: 1px;
+            background: #e0e0e0;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* Layout Lado a Lado (Flexbox) */
+        .depoimentos-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        /* Card de Depoimento (Esquerda) */
+        .depoimento-card {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .autor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .autor-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            color: #1c4c75;
+            font-weight: 400;
+        }
+
+        .estrelas {
+            color: #ff9800;
+            /* Cor laranja das estrelas */
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .cargo {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .logo-empresa img {
+            max-height: 85px;
+            object-fit: contain;
+        }
+
+        .texto-depoimento {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            font-weight: 300;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        /* Bolinhas de navegação */
+        .indicadores {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-start;
+        }
+
+        .ponto {
+            width: 8px;
+            height: 8px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .ponto.ativo {
+            background-color: #555;
+            /* Bolinha ativa mais escura */
+        }
+
+        /* Imagem (Direita) */
+        .imagem-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .imagem-container img {
+            width: 100%;
+            max-width: 550px;
+            border-radius: 4px;
+            /* Leve arredondada nos cantos como na foto */
+            object-fit: cover;
+        }
+
+        /* Responsividade para Celulares */
+        @media (max-width: 768px) {
+            .depoimentos-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .autor-header {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .texto-depoimento {
+                text-align: center;
+            }
+
+            .indicadores {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="img/GEM.png" alt="Logo">
+            </div>
+
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="projetos.html">Projetos</a></li>
+                    <li><a href="diferenciais.html">Vantagens</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="overlay"></div>
+
+    <main class="rv-main">
+
+        <section class="rv-hero">
+
+            <video autoplay muted loop playsinline class="rv-hero-video">
+                <source src="videos/fundo.mp4" type="video/mp4">
+                Seu navegador não suporta vídeos.
+            </video>
+
+            <div class="rv-hero-conteudo">
+                <h1>Nossos Projetos</h1>
+            </div>
+        </section>
+
+        <section class="produtos-section">
+            <div class="produtos-header">
+                <div class="produtos-title-container">
+                    <h2 class="produtos-title">Conheça nossos projetos em Santa Catarina</h2>
+                </div>
+                <div class="produtos-nav-buttons">
+                    <button class="produtos-nav-btn" id="prodPrevBtn" aria-label="Anterior">&#10094;</button>
+                    <button class="produtos-nav-btn" id="prodNextBtn" aria-label="Próximo">&#10095;</button>
+                </div>
+            </div>
+
+            <div class="produtos-carousel-container">
+                <div class="produtos-grid" id="produtosGrid">
+
+                    <article class="produtos-card">
+                        <div class="produtos-card-image-wrapper">
+                            <img src="img/projeto2.jpeg" alt="Infraestrutura e Mobilidade em SC"
+                                class="produtos-card-img">
+                        </div>
+                        <div class="produtos-card-content">
+                            <h3 class="produtos-card-title">Mobilidade Urbana</h3>
+                            <p class="produtos-card-excerpt">Soluções inteligentes para o trânsito catarinense</p>
+                        </div>
+                        <a href="#" class="produtos-btn-vejamais">
+                            VEJA MAIS <span class="arrow-icon">&#10095;</span>
+                        </a>
+                    </article>
+
+                    <article class="produtos-card">
+                        <div class="produtos-card-image-wrapper">
+                            <img src="img/protejo1.jpeg" alt="Energia Sustentável em SC" class="produtos-card-img">
+                        </div>
+                        <div class="produtos-card-content">
+                            <h3 class="produtos-card-title">Energia Limpa</h3>
+                            <p class="produtos-card-excerpt">Parques eólicos e solares implantados no estado</p>
+                        </div>
+                        <a href="#" class="produtos-btn-vejamais">
+                            VEJA MAIS <span class="arrow-icon">&#10095;</span>
+                        </a>
+                    </article>
+
+                    <article class="produtos-card">
+                        <div class="produtos-card-image-wrapper">
+                            <img src="https://www.jornaldasgerais.com.br/wp-content/uploads/2020/04/pavimentacao-asfaltica-870x480-1.jpg"
+                                alt="Pavimentação e Rodovias em SC" class="produtos-card-img">
+                        </div>
+                        <div class="produtos-card-content">
+                            <h3 class="produtos-card-title">Infraestrutura Viária</h3>
+                            <p class="produtos-card-excerpt">Obras de pavimentação e duplicação de rodovias</p>
+                        </div>
+                        <a href="#" class="produtos-btn-vejamais">
+                            VEJA MAIS <span class="arrow-icon">&#10095;</span>
+                        </a>
+                    </article>
+
+                    <article class="produtos-card">
+                        <div class="produtos-card-image-wrapper">
+                            <img src="img/projeto3.png" alt="Inovação e Tecnologia em SC" class="produtos-card-img">
+                        </div>
+                        <div class="produtos-card-content">
+                            <h3 class="produtos-card-title">Polo Tecnológico</h3>
+                            <p class="produtos-card-excerpt">Iniciativas de automação e tecnologia industrial</p>
+                        </div>
+                        <a href="#" class="produtos-btn-vejamais">
+                            VEJA MAIS <span class="arrow-icon">&#10095;</span>
+                        </a>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+        <section class="depoimentos-section">
+            <h2 class="titulo-secao">Bresola terraplanagem e pavimento</h2>
+            <hr class="linha-divisoria">
+
+            <div class="depoimentos-container">
+                <div class="depoimento-card">
+                    <div class="autor-header">
+                        <div class="logo-empresa">
+                            <img src="img/log.png" alt="Logo Aterpa">
+                        </div>
+                    </div>
+
+                    <p class="texto-depoimento">
+                        Na Bresola Terraplanagem e Pavimentação, entendemos que qualquer grande obra começa muito antes
+                        do primeiro tijolo ser assentado. Ela começa na preparação precisa do solo e na estruturação
+                        sólida de cada caminho. Nosso compromisso é ser o alicerce confiável que o seu projeto precisa
+                        para se tornar realidade.
+
+                        Por que escolher a Bresola?
+                        A confiança não se constrói da noite para o dia; ela é fruto de resultados entregues e de uma
+                        conduta ética inabalável. Veja por que somos a escolha certa para a sua obra:
+                    </p>
+                </div>
+
+                <div class="imagem-container">
+                    <img src="img/protejo1.jpeg" alt="Pessoa avaliando no celular">
+                </div>
+            </div>
+
+        </section>
+        <section class="weg-section">
+            <div class="weg-header">
+                <div class="weg-title-container">
+                    <h2 class="weg-title">Nossos Materiais</h2>
+                </div>
+                <div class="weg-nav-buttons">
+                    <button class="weg-nav-btn" id="prevBtn" aria-label="Anterior">&#10094;</button>
+                    <button class="weg-nav-btn" id="nextBtn" aria-label="Próximo">&#10095;</button>
+                </div>
+            </div>
+
+            <div class="weg-carousel-container">
+                <div class="weg-grid" id="wegGrid">
+
+                    <article class="weg-card">
+                        <div class="weg-card-image-wrapper">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEjOfHDXkQkwGtdxSlRUXnTYH1Jwiat1ZnucjJammtOvKTcJcrkqUqN_gc&s=10"
+                                alt="Brita 0 / Pedrisco" class="weg-img-fluid weg-card-img">
+                        </div>
+                        <div class="weg-card-content">
+                            <a href="#" class="weg-card-title">Brita 0 (Pedrisco): Ideal para fabricação de vigas, lajes
+                                e blocos de concreto</a>
+                            <p class="weg-card-excerpt">Com granulometria reduzida, garante excelente acabamento e
+                                preenchimento de fôrmas...</p>
+                        </div>
+                        <button class="weg-btn-plus" aria-label="Ver mais">+</button>
+                    </article>
+
+                    <article class="weg-card">
+                        <div class="weg-card-image-wrapper">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwClITf_X25lUqila9Lb_ljTM1-FKYgH6GSVuxFpMTAeXg03dbpZCnk4k&s=10"
+                                alt="Brita 1" class="weg-card-img">
+                        </div>
+                        <div class="weg-card-content">
+                            <a href="#" class="weg-card-title">Brita 1: A mais utilizada na construção civil para
+                                concreto convencional</a>
+                            <p class="weg-card-excerpt">Perfeita para colunas, pilares e estruturas que demandam alta
+                                resistência mecânica...</p>
+                        </div>
+                        <button class="weg-btn-plus" aria-label="Ver mais">+</button>
+                    </article>
+
+                    <article class="weg-card">
+                        <div class="weg-card-image-wrapper">
+                            <img src="https://britagemvogelsanger.com.br/wp-content/uploads/2020/04/brita-2.jpg"
+                                alt="Brita 2" class="weg-card-img">
+                        </div>
+                        <div class="weg-card-content">
+                            <a href="#" class="weg-card-title">Brita 2: Alta resistência para concreto pesado e
+                                fundações brutas</a>
+                            <p class="weg-card-excerpt">Indicada para suportar grandes cargas, como em pisos industriais
+                                e bases de pavimentação...</p>
+                        </div>
+                        <button class="weg-btn-plus" aria-label="Ver mais">+</button>
+                    </article>
+
+                    <article class="weg-card">
+                        <div class="weg-card-image-wrapper">
+                            <img src="https://terrasulterraplanagem.com.br/wp-content/uploads/2022/12/ser-5.jpg"
+                                alt="Brita Corrida" class="weg-card-img">
+                        </div>
+                        <div class="weg-card-content">
+                            <a href="#" class="weg-card-title">Brita Corrida: Excelente para sub-bases, aterros e
+                                estabilização de vias</a>
+                            <p class="weg-card-excerpt">Mistura ideal de granulometrias que garante ótima compactação e
+                                drenagem inicial...</p>
+                        </div>
+                        <button class="weg-btn-plus" aria-label="Ver mais">+</button>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="rv-intro">
+            <div>
+                <div class="rotulo">Livro de obras</div>
+                <h2>Registro de<br>projetos</h2>
+            </div>
+            <p>Abaixo está um recorte das obras executadas pela Bresola: terraplenagem rural, abertura e recapeamento de
+                vias, preparo de base para pavimentação e drenagem. Cada linha é um projeto real, com a extensão ou área
+                trabalhada e o tipo de serviço aplicado.</p>
+        </section>
+
+        <section class="rv-obras">
+            <div class="rv-obras-cabecalho">
+                <span>Nº</span>
+                <span>Obra / Local</span>
+                <span>Serviço</span>
+                <span>Extensão</span>
+                <span>Descrição</span>
+            </div>
+
+            <div class="rv-obra-linha">
+                <span class="rv-obra-codigo">OB-014</span>
+                <span class="rv-obra-titulo">Estrada Geral do Rio Bonito<span>Campos Novos – SC</span></span>
+                <span class="rv-obra-servico">Pavimentação asfáltica</span>
+                <span class="rv-obra-extensao">8,2 km</span>
+                <span class="rv-obra-desc">Recapeamento e nova camada de revestimento em estrada rural de acesso a
+                    produtores.</span>
+            </div>
+
+            <div class="rv-obra-linha">
+                <span class="rv-obra-codigo">OB-015</span>
+                <span class="rv-obra-titulo">Loteamento Vista Alegre<span>Campos Novos – SC</span></span>
+                <span class="rv-obra-servico">Terraplenagem</span>
+                <span class="rv-obra-extensao">4,5 ha</span>
+                <span class="rv-obra-desc">Corte e aterro para implantação de novo bairro residencial.</span>
+            </div>
+
+            <div class="rv-obra-linha">
+                <span class="rv-obra-codigo">OB-016</span>
+                <span class="rv-obra-titulo">Avenida Industrial<span>Campos Novos – SC</span></span>
+                <span class="rv-obra-servico">Base e sub-base</span>
+                <span class="rv-obra-extensao">2,1 km</span>
+                <span class="rv-obra-desc">Preparo de base granular compactada para futura pavimentação
+                    asfáltica.</span>
+            </div>
+
+            <div class="rv-obra-linha">
+                <span class="rv-obra-codigo">OB-017</span>
+                <span class="rv-obra-titulo">Acesso à Linha São Pedro<span>Região do Meio-Oeste – SC</span></span>
+                <span class="rv-obra-servico">Drenagem + pavimentação</span>
+                <span class="rv-obra-extensao">3,8 km</span>
+                <span class="rv-obra-desc">Implantação de sistema de drenagem seguido de pavimentação asfáltica.</span>
+            </div>
+
+            <div class="rv-obra-linha">
+                <span class="rv-obra-codigo">OB-018</span>
+                <span class="rv-obra-titulo">Fazenda Santa Luzia<span>Vargeão – SC</span></span>
+                <span class="rv-obra-servico">Terraplenagem rural</span>
+                <span class="rv-obra-extensao">12 ha</span>
+                <span class="rv-obra-desc">Nivelamento de área para lavoura e construção de açude.</span>
+            </div>
+
+            <div class="rv-obra-linha">
+                <span class="rv-obra-codigo">OB-019</span>
+                <span class="rv-obra-titulo">Via Central<span>Campos Novos – SC</span></span>
+                <span class="rv-obra-servico">Recapeamento asfáltico</span>
+                <span class="rv-obra-extensao">1,4 km</span>
+                <span class="rv-obra-desc">Fresagem e recapeamento de via urbana com alto volume de tráfego.</span>
+            </div>
+        </section>
+
+        <div class="rv-faixa"></div>
+
+        <section class="rv-cta">
+            <h2>Sua obra entra no livro de registros</h2>
+            <p>Envie a localização e o tipo de serviço que precisa — terraplenagem, base ou pavimentação.</p>
+            <a href="contato.html" class="rv-cta-botao">Solicitar orçamento</a>
+        </section>
+
+    </main>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Página carregada com sucesso. Vídeo de fundo pronto.");
+            // Adicione seus scripts ou manipulações DOM extras aqui, se necessário.
+        });
+    </script>
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const overlay = document.querySelector('.overlay');
+
+        // Função para alternar o estado do menu
+        function toggleMenu() {
+            menuToggle.classList.toggle('open');
+            navMenu.classList.toggle('open');
+            overlay.style.display = navMenu.classList.contains('open') ? 'block' : 'none';
+        }
+
+        // Eventos de clique
+        menuToggle.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Fecha o menu ao clicar em um link (opcional, mas recomendado)
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('open')) toggleMenu();
+            });
+        });
+    </script>
+    <script>
+        const grid = document.getElementById('wegGrid');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let scrollPosition = 0;
+
+        // Função para calcular a largura visível e scroll do carrossel
+        function getScrollAmount() {
+            const cardWidth = document.querySelector('.weg-card').getBoundingClientRect().width;
+            const gap = 20; // Mesmo valor definido no CSS do .weg-grid
+            return cardWidth + gap;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            const maxScroll = grid.scrollWidth - grid.clientWidth;
+            scrollPosition += getScrollAmount();
+
+            if (scrollPosition > maxScroll) {
+                scrollPosition = maxScroll; // Trava no final
+            }
+            grid.style.transform = `translateX(-${scrollPosition}px)`;
+        });
+
+        prevBtn.addEventListener('click', () => {
+            scrollPosition -= getScrollAmount();
+
+            if (scrollPosition < 0) {
+                scrollPosition = 0; // Trava no início
+            }
+            grid.style.transform = `translateX(-${scrollPosition}px)`;
+        });
+
+        // Ajusta a posição caso a tela seja redimensionada
+        window.addEventListener('resize', () => {
+            scrollPosition = 0;
+            grid.style.transform = `translateX(0px)`;
+
+
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const grid = document.getElementById("produtosGrid");
+            const prevBtn = document.getElementById("prodPrevBtn");
+            const nextBtn = document.getElementById("prodNextBtn");
+
+            if (!grid || !prevBtn || !nextBtn) return;
+
+            let currentIndex = 0;
+
+            function getItemsInView() {
+                const width = window.innerWidth;
+                if (width <= 480) return 1;
+                if (width <= 768) return 2;
+                if (width <= 1024) return 3;
+                return 4; // Desktop padrão
+            }
+
+            function moveCarousel() {
+                const totalItems = grid.children.length;
+                const itemsInView = getItemsInView();
+                const maxIndex = totalItems - itemsInView;
+
+                // Garante que o index fique dentro dos limites válidos
+                if (currentIndex > maxIndex) currentIndex = maxIndex;
+                if (currentIndex < 0) currentIndex = 0;
+
+                // Calcula o deslocamento baseado no tamanho exato do primeiro card + gap
+                const itemWidth = grid.children[0].getBoundingClientRect().width;
+                const gap = parseInt(window.getComputedStyle(grid).gap) || 0;
+
+                const amountToMove = currentIndex * (itemWidth + gap);
+                grid.style.transform = `translateX(-${amountToMove}px)`;
+            }
+
+            nextBtn.addEventListener("click", function () {
+                const totalItems = grid.children.length;
+                const itemsInView = getItemsInView();
+
+                if (currentIndex < totalItems - itemsInView) {
+                    currentIndex++;
+                    moveCarousel();
+                }
+            });
+
+            prevBtn.addEventListener("click", function () {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    moveCarousel();
+                }
+            });
+
+            // Recalcula o alinhamento se a tela mudar de tamanho
+            window.addEventListener("resize", moveCarousel);
+        });
+    </script>
+
+</body>
+
+</html>

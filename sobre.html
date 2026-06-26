@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bresola Terraplanagem - Tradição e Engenharia de Infraestrutura</title>
+    <style>
+        /* ==========================================================================
+            1. CONFIGURAÇÕES GERAIS E PALETA DE CORES (IDENTIDADE WEG)
+           ========================================================================== */
+        :root {
+            --azul-weg: #005792;
+            --azul-escuro: #003366;
+            --azul-cadete: #1e3e62;
+            --cinza-fundo: #f4f7f9;
+            --cinza-texto: #555555;
+            --borda-azul: #0077c0;
+            --cor-fundo: #0b192c;
+            --cor-texto: #ffffff;
+            --cor-texto-rodape-mutado: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==========================================================================
+            2. CABEÇALHO SUPERIOR (FIXO)
+           ========================================================================== */
+        .main-header {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(9, 52, 104, 0.95);
+            border-bottom: 2px solid var(--azul-cadete);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo img {
+            height: 100px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 8px 0;
+            transition: color 0.2s ease;
+        }
+
+        .nav-menu ul a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--azul-weg);
+            transition: width 0.2s ease;
+        }
+
+        .nav-menu ul a:hover {
+            color: var(--azul-weg);
+        }
+
+        .nav-menu ul a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            width: 42px;
+            height: 42px;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .bar {
+            width: 22px;
+            height: 2px;
+            background-color: #ffffff;
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+            3. ESTRUTURA DE CONTEÚDO E SEÇÕES INSTITUCIONAIS
+           ========================================================================== */
+        .breadcrumb {
+            background-color: #ffffff;
+            padding: 10px 12%;
+            font-size: 0.8rem;
+            color: #888888;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .breadcrumb a {
+            color: var(--azul-weg);
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1 0 auto;
+        }
+
+        .section-proposito {
+            margin-bottom: 60px;
+        }
+
+        .titulo-secao {
+            color: var(--azul-weg);
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .subtitulo-italico {
+            font-style: italic;
+            color: var(--cinza-texto);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .texto-corrido {
+            color: var(--cinza-texto);
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+
+        /* Seção Missão */
+        .section-missao {
+            background-color: var(--cinza-fundo);
+            display: flex;
+            align-items: stretch;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 60px;
+        }
+
+        .missao-conteudo {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .missao-conteudo .titulo-secao::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: var(--borda-azul);
+            margin-top: 8px;
+        }
+
+        .missao-imagem-container {
+            flex: 1;
+            position: relative;
+            min-height: 300px;
+            overflow: hidden;
+        }
+
+        .missao-imagem-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 0;
+            height: 0;
+            border-top: 350px solid var(--cinza-fundo);
+            border-right: 60px solid transparent;
+            z-index: 2;
+        }
+
+        .missao-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: right center;
+        }
+
+        /* Seções de Linhas Alternadas */
+        .section-row {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-top: 40px;
+            background-color: #ffffff;
+            padding: 20px 0;
+        }
+
+        .row-reverse {
+            flex-direction: row-reverse;
+        }
+
+        .row-conteudo {
+            flex: 1.2;
+        }
+
+        .row-conteudo .titulo-secao::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: var(--borda-azul);
+            margin-top: 8px;
+            margin-bottom: 20px;
+        }
+
+        .row-imagem-container {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 2px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .row-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* ==========================================================================
+            4. RODAPÉ INSTITUCIONAL
+           ========================================================================== */
+        /* Rodapé */
+        .site-footer {
+            background-color: #001f3f;
+            color: var(--cor-texto);
+            padding-top: 50px;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: var(--cor-texto);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        .footer-logo-top img {
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .footer-middle {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding-bottom: 80px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1 1 250px;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .contact-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: white;
+            stroke-width: 1.5;
+        }
+
+        .contact-text h4 {
+            margin: 0 0 5px 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .contact-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: white;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .social-icons svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--cor-texto);
+        }
+
+        /* Rodapé Inferior */
+        .footer-bottom {
+            background-color: var(--cor-fundo-inferior);
+            color: var(--cor-texto-inferior);
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        .footer-bottom-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .floating-logo-wrapper {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            background-color: var(--cor-fundo-inferior);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 -10px 15px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+
+        .floating-logo-wrapper img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .developer-badge {
+            border: 1px solid #ddd;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+
+        /* ==========================================================================
+            5. DISPOSITIVOS MÓVEIS (RESPONSIVIDADE)
+           ========================================================================== */
+        @media (min-width: 768px) {
+            .footer-middle {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 992px) {
+            .footer-middle {
+                grid-template-columns: repeat(4, 1fr);
+                align-items: start;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(40, 94, 135, 0.98);
+                transition: right 0.4s ease;
+                z-index: 1001;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu ul {
+                flex-direction: column;
+                gap: 35px;
+            }
+
+            .nav-menu a {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner {
+                height: 500px;
+                /* <--- Mantido 500px para celulares, se quiser maior aqui também é só avisar! */
+                min-height: auto;
+                padding-left: 5%;
+            }
+
+            .hero-banner h1 {
+                font-size: 2.5rem;
+                /* Ajuste da fonte para caber no celular */
+            }
+
+            .section-missao {
+                flex-direction: column;
+            }
+
+            .missao-imagem-container::before {
+                display: none;
+            }
+
+            .missao-imagem-container {
+                min-height: 250px;
+            }
+
+            .breadcrumb {
+                padding: 10px 5%;
+            }
+
+            .section-row,
+            .row-reverse {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 colunas no desktop */
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 12px;
+            /* Espaçamento leve nas laterais */
+            font-family: sans-serif;
+        }
+
+        .stat-card {
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            min-height: 110px;
+            border-radius: 6px;
+            /* Borda levemente arredondada (mais sóbrio) */
+            transition: background 0.2s ease;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            /* Espaço em cima e embaixo da seção */
+            padding: 0 15px;
+        }
+
+        .stats-title {
+            text-align: center;
+            font-family: sans-serif;
+            color: #193f65;
+            margin-bottom: 30px;
+            /* Espaço entre o título e os cards */
+            font-size: 1.8rem;
+            font-weight: 300;
+        }
+
+        .stat-card:hover {
+            filter: brightness(1.1);
+            cursor: pointer;
+        }
+
+        .stat-card svg {
+            width: 26px;
+            height: 26px;
+            fill: white;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .stat-card p {
+            margin: 0;
+            font-size: 0.8rem;
+            /* Fonte ligeiramente menor ajuda a manter o visual limpo */
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        /* Responsividade: 2x2 para Tablets e Celulares */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* Aqui está a mágica do 2x2 */
+            }
+        }
+
+        /* Cores */
+        .bg-1 {
+            background-color: #006796;
+        }
+
+        .bg-2 {
+            background-color: #2692b9;
+        }
+
+        .bg-3 {
+            background-color: #4aabc9;
+        }
+
+        .bg-4 {
+            background-color: #60b3cf;
+        }
+
+        .nossos-clientes {
+            width: 90%;
+            margin: 0 auto;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        /* Container que coloca tudo em linha */
+        .container-logos {
+            display: flex;
+            flex-wrap: wrap;
+            /* Permite que quebrem linha em telas menores */
+            justify-content: center;
+            /* Centraliza os logos */
+            align-items: center;
+            gap: 40px;
+            /* Espaçamento entre os logos */
+            margin-top: 20px;
+        }
+
+        /* Define um tamanho base para cada logo */
+        .logo-item {
+            flex: 0 0 150px;
+            /* Largura fixa de 150px, cresce conforme necessário */
+        }
+
+        .logo-item img {
+            max-width: 100%;
+            height: auto;
+            filter: grayscale(100%);
+            transition: filter 0.3s;
+        }
+
+        .logo-item img:hover {
+            filter: grayscale(0%);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cabeçalho Preservado -->
+    <header class="main-header" id="mainHeader">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="img/GEM.png" alt="Logo Bresola">
+            </a>
+
+            <div class="menu-toggle" id="mobileMenuBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projetos.html">Projetos</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+
+    <!-- Conteúdo Principal -->
+    <main class="container">
+
+        <!-- Bloco: Nosso Propósito -->
+        <section class="section-proposito">
+            <h2 class="titulo-secao">Nosso propósito</h2>
+            <p class="subtitulo-italico">
+                Desenvolver infraestrutura e soluções de engenharia para transformar o solo em base para o progresso e o
+                desenvolvimento regional.
+            </p>
+            <p class="texto-corrido">
+                Criar obras de qualidade, com precisão técnica e eficiência, é o compromisso da Bresolla. Há mais de 40
+                anos, investimos continuamente em maquinário moderno, capacitação técnica e no fortalecimento de nossa
+                equipe. Nossa paixão é entregar resultados que superam as expectativas de nossos clientes, honrando
+                nossa trajetória em Campos Novos e em toda a região de Santa Catarina.
+            </p>
+        </section>
+
+        <section class="section-missao">
+            <div class="missao-conteudo">
+                <h2 class="titulo-secao">Missão</h2>
+                <p class="subtitulo-italico">
+                    Crescimento contínuo e sustentável, mantendo a tradição e a confiança.
+                </p>
+                <p class="texto-corrido">
+                    A Bresolla deseja continuar expandindo suas atividades de forma rápida e segura. Nosso objetivo é
+                    manter uma estrutura de negócios ágil, que permita a flexibilidade necessária para atender às
+                    demandas complexas de pavimentação e terraplenagem. Oferecemos a solidez de uma empresa com quatro
+                    décadas de história, aliada à modernidade de soluções ágeis e sempre disponíveis quando o cliente
+                    precisa.
+                </p>
+            </div>
+
+            <div class="missao-imagem-container">
+                <img src="img/quemsomos.jpeg" alt="Equipe Bresolla" class="missao-img">
+            </div>
+        </section>
+
+        <section class="section-row">
+            <div class="row-imagem-container">
+                <img src="img/sobre.png" alt="Pessoas e Infraestrutura - Bresolla" class="row-img">
+            </div>
+            <div class="row-conteudo">
+                <h2 class="titulo-secao">Pessoas e Infraestrutura</h2>
+                <p class="texto-corrido">
+                    Valorizamos a geração de oportunidades de desenvolvimento profissional para nossa equipe e o
+                    respeito às comunidades onde atuamos. Na Bresolla, unimos o compromisso com a engenharia de ponta ao
+                    cuidado rigoroso com o meio ambiente. Investimos em técnicas de terraplenagem responsáveis e
+                    soluções de pavimentação que garantem durabilidade e segurança.
+                </p>
+            </div>
+        </section>
+    </main>
+    <div class="stats-container">
+        <h2 class="stats-title">Nossa Trajetória e Diferenciais</h2>
+
+        <div class="stats-grid">
+            <div class="stat-card bg-1">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z" />
+                </svg>
+                <strong>+ de 20 anos</strong>
+                <p>de experiência no mercado</p>
+            </div>
+            <div class="stat-card bg-2">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                </svg>
+                <strong>Atuação nacional</strong>
+                <p>presente em 5 estados</p>
+            </div>
+            <div class="stat-card bg-3">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 16H4V8h16v12z" />
+                </svg>
+                <strong>+ 1.500 obras</strong>
+                <p>entregues com qualidade</p>
+            </div>
+            <div class="stat-card bg-4">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15l-6.4 3.6L12 11.39l6.4-3.6L12 4.15zM5 16.03l6 3.37v-6.75L5 9.28v6.75zm8 6.75l6-3.37V9.28l-6 3.37v6.75z" />
+                </svg>
+                <strong>Frota própria</strong>
+                <p>com 50+ máquinas modernas</p>
+            </div>
+            <div class="stat-card bg-1">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                </svg>
+                <strong>Segurança máxima</strong>
+                <p>Certificação ISO 9001</p>
+            </div>
+            <div class="stat-card bg-2">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                </svg>
+                <strong>Equipe qualificada</strong>
+                <p>+ 200 colaboradores</p>
+            </div>
+            <div class="stat-card bg-3">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <strong>98% de aprovação</strong>
+                <p>Clientes satisfeitos</p>
+            </div>
+            <div class="stat-card bg-4">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2v20M2 12h20" />
+                </svg>
+                <strong>Soluções ágeis</strong>
+                <p>Orçamento em 24h</p>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Lógica de Menu Móvel -->
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navMenu = document.querySelector(".nav-menu");
+
+        if (menuToggle && navMenu) {
+            menuToggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                navMenu.classList.toggle("active");
+                menuToggle.classList.toggle("open");
+            });
+
+            const menuLinks = navMenu.querySelectorAll("a");
+            menuLinks.forEach(function (link) {
+                link.addEventListener("click", function () {
+                    navMenu.classList.remove("active");
+                    menuToggle.classList.remove("open");
+                });
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                    navMenu.classList.remove("active");
+                    menuToggle.classList.remove("open");
+                }
+            });
+        }
+
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            slidesPerView: 1, // Padrão para celular
+            spaceBetween: 20,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                768: { slidesPerView: 3 }, // Tablet/Desktop
+                1024: { slidesPerView: 4 } // Telas maiores
+            }
+        });
+    </script>
+</body>
+
+</html>

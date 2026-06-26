@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abresola - Terraplanagem e Pavimentação</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --chumbo-escuro: #183144;
+            --bege-pedra: #f2f1ef;
+            --azul-marca: #0056b3;
+            --azul-claro: #87ceeb;
+            --fonte-texto: 'Work Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bege-pedra);
+            color: var(--chumbo-escuro);
+            font-family: var(--fonte-texto);
+            line-height: 1.6;
+        }
+
+        .main-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+            padding: 25px 0;
+        }
+
+        .main-header.scrolled {
+            background: rgba(9, 52, 104, 0.98);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo img {
+            height: 100px;
+            width: auto;
+            transition: height 0.4s ease;
+        }
+
+        .main-header.scrolled .logo img {
+            height: 42px;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ff9f43;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            width: 42px;
+            height: 42px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .bar {
+            width: 22px;
+            height: 2px;
+            background-color: #ffffff;
+            transition: 0.4s;
+        }
+
+        /* Importação de fonte profissional */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        .wsm-container {
+            font-family: 'Roboto', sans-serif;
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: #fff;
+        }
+
+        .wsm-text {
+            flex: 1;
+        }
+
+        .wsm-text h2 {
+            color: #005aab;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .wsm-text h3 {
+            color: #333;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .wsm-text p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .wsm-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .wsm-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .wsm-image img:hover {
+            transform: scale(1.02);
+        }
+
+        .wsm-btn {
+            display: inline-block;
+            background-color: #009ad7;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .wsm-btn:hover {
+            background-color: #007bb5;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .wsm-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Estilo do botão X inspirado em image_e5da5f.png */
+        .close-btn {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 1003;
+        }
+
+        .cross-icon {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .cross-icon::before,
+        .cross-icon::after {
+            content: '';
+            position: absolute;
+            top: 19px;
+            left: 5px;
+            width: 30px;
+            height: 2px;
+            background-color: white;
+        }
+
+        .cross-icon::before {
+            transform: rotate(45deg);
+        }
+
+        .cross-icon::after {
+            transform: rotate(-45deg);
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(40, 94, 135, 0.98);
+                transition: right 0.4s;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 1001;
+            }
+
+            .nav-menu.open {
+                right: 0;
+            }
+
+            .nav-menu.open .close-btn {
+                display: block;
+            }
+
+            .nav-menu ul {
+                flex-direction: column;
+                /* Isso coloca os itens um abaixo do outro */
+                align-items: center;
+                /* Centraliza os links horizontalmente */
+                gap: 30px;
+                /* Mantém o espaçamento entre eles */
+                width: 100%;
+            }
+
+            .nav-menu a {
+                font-size: 24px;
+                /* Aumenta o tamanho para melhor clique no mobile */
+                display: block;
+                padding: 10px;
+            }
+        }
+
+        /* --- ESTILO DA SEÇÃO DE CARACTERÍSTICAS (NOVO) --- */
+        .caracteristicas-abresola {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .caracteristicas-abresola h2 {
+            color: var(--azul-marca);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .caracteristicas-abresola h2::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: var(--azul-claro);
+            margin-top: 10px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .item {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 4px solid #dcdcdc;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .item strong {
+            display: block;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Restante do layout mantido conforme original */
+        .hero-section {
+            position: relative;
+            height: 200px;
+            background-image: url('https://lh7-rt.googleusercontent.com/docsz/AD_4nXdvlpxsqLmCVxX1NlXjBhF_8op3uorAQGMQoenrNy_E1n9l2Lb1MffFTSlDl5w7T959PBkpC_0mbyNZlWGssOwMqpALjSd9bMendZWJ5NsOKCI3RXD2imkr3N-h-lpQiaJOT3mtdrDvIMQ4n8AfGLGcJ-6K6p4l9PXBNAs_jl2vd4jYCHw_eXc?key=zlBde046Y4kuP96xAFUaRw');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(35, 39, 42, 0.6);
+        }
+
+        .sustainability-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pillar h3 {
+            color: #005696;
+            margin-top: 30px;
+        }
+
+        .pillar h4 {
+            color: #333;
+        }
+
+        .pillar p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 15px;
+        }
+
+        .image-box {
+            background-size: cover;
+            background-position: center;
+            min-height: 200px;
+        }
+
+        /* Substitua pelas suas imagens reais */
+        .wind-energy {
+            background-image: url('https://www.jaupavi.com.br/wp-content/uploads/2023/12/Untitled-1-768x576.png');
+            grid-column: 1;
+        }
+
+        .electric-bus {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0MAtFkp13QG7Wb_L1VzPKpQzb3okTXXOxog4DiQTUj7ijHdBfnIIXsZXM&s=10');
+            grid-column: 2;
+            grid-row: span 2;
+        }
+
+        .solar-park {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPayeO3wlBhbe1vjEK2waOMHlI9owV2HWZEpkxv8jzXnzGP8nx1p6-SeVW&s=10');
+            grid-column: 1;
+        }
+
+        @media (max-width: 768px) {
+            .sustainability-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .site-footer {
+            background-color: #001f3f;
+            color: var(--cor-texto);
+            padding-top: 50px;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: var(--cor-texto);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        .footer-logo-top img {
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .footer-middle {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding-bottom: 80px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1 1 250px;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .contact-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: white;
+            stroke-width: 1.5;
+        }
+
+        .contact-text h4 {
+            margin: 0 0 5px 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .contact-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: white;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .social-icons svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--cor-texto);
+        }
+
+        /* Rodapé Inferior */
+        .footer-bottom {
+            background-color: var(--cor-fundo-inferior);
+            color: var(--cor-texto-inferior);
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        .footer-bottom-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .floating-logo-wrapper {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            background-color: var(--cor-fundo-inferior);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 -10px 15px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+
+        .floating-logo-wrapper img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .developer-badge {
+            border: 1px solid #ddd;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* Container principal */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            /* Ocupa a altura total da tela */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        /* Estilo do vídeo de fundo */
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            /* Garante que o vídeo cubra toda a área sem distorcer */
+            z-index: 1;
+        }
+
+        /* Camada escura (Overlay) para destacar o texto */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(31, 56, 117, 0.516);
+            /* Ajuste o 0.45 para mais escuro ou mais claro */
+            z-index: 2;
+        }
+
+        /* Conteúdo textual e botão */
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            /* Fica acima do vídeo e do overlay */
+            max-width: 800px;
+        }
+
+        .scale-up-left {
+            -webkit-animation: scale-up-left 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+            animation: scale-up-left 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        }
+
+        /* ----------------------------------------------
+ * Generated by Animista on 2026-6-22 10:45:58
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+        /**
+ * ----------------------------------------
+ * animation scale-up-left
+ * ----------------------------------------
+ */
+        @-webkit-keyframes scale-up-left {
+            0% {
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                -webkit-transform-origin: 0% 50%;
+                transform-origin: 0% 50%;
+            }
+
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                -webkit-transform-origin: 0% 50%;
+                transform-origin: 0% 50%;
+            }
+        }
+
+        @keyframes scale-up-left {
+            0% {
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                -webkit-transform-origin: 0% 50%;
+                transform-origin: 0% 50%;
+            }
+
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                -webkit-transform-origin: 0% 50%;
+                transform-origin: 0% 50%;
+            }
+        }
+
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .hero-content h2 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 35px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Botão de chamada para ação (CTA) */
+        .btn-solicitar {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #0b4f8c;
+            /* Cor azul aproximada para o texto do botão */
+            text-decoration: none;
+            padding: 15px 40px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Efeito de passar o mouse no botão */
+        .btn-solicitar:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.03);
+        }
+
+        /* Responsividade para telas menores (Celulares) */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.6rem;
+            }
+
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+
+            .btn-solicitar {
+                padding: 12px 30px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Configurações Gerais e Centralização do Bloco */
+        .container-aplicacoes {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container-aplicacoes h2 {
+            color: #113255;
+            font-size: 2rem;
+            font-weight: 300;
+            font-family: Arial, sans-serif;
+            margin-bottom: 40px;
+        }
+
+        /* Grid Responsivo usando Flexbox */
+        .grid-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Estilo Individual dos Cards */
+        .card {
+            background-color: #fcfcfc;
+            flex: 1 1 250px;
+            /* Cresce, encolhe e tem base de 250px */
+            max-width: 280px;
+            /* Limita a largura máxima em telas grandes */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            /* Garante que a imagem preencha o espaço sem distorcer */
+        }
+
+        .card h3 {
+            color: #333;
+            font-size: 1.2rem;
+            margin: 20px 15px 10px 15px;
+            min-height: 50px;
+            /* Mantém o alinhamento mesmo com títulos maiores */
+            display: flex;
+            align-items: center;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0 15px;
+        }
+
+        /* Botão Saiba Mais */
+        .btn-saiba-mais {
+            background-color: #005691;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-saiba-mais:hover {
+            background-color: #003d66;
+        }
+
+        /* Ajuste Fino para Telas Pequenas */
+        @media (max-width: 600px) {
+            .card {
+                max-width: 100%;
+                /* O card ocupa a largura total no celular */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="main-header" id="mainHeader">
+        <div class="header-container">
+            <a href="#" class="logo"><img src="img/GEM.png" alt="Logo"></a>
+            <div class="menu-toggle" id="mobileMenuBtn">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <div class="close-btn" id="closeMenuBtn"><span class="cross-icon"></span></div>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="projetos.html">projetos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-title-box">
+
+            </div>
+        </div>
+    </section>
+    <section class="sustainability-section">
+        <div class="content">
+            <p class="intro">Nossa estratégia de sustentabilidade se apoia em 4 eixos, cada um suportado por temas e
+                objetivos.</p>
+
+            <div class="pillar">
+                <h3>Soluções em Terraplenagem e Pavimentação</h3>
+                <h4>Engenharia e Inovação para a Infraestrutura do Futuro</h4>
+                <p>Entregamos projetos de terraplenagem e pavimentação com alta precisão técnica, otimizando o uso de
+                    materiais para reduzir a pegada de carbono e garantir durabilidade estrutural.</p>
+                <p>Aplicamos princípios de design circular, focando na reutilização de solos, otimização de jazidas e
+                    emprego de tecnologias que aumentam a vida útil do pavimento.</p>
+            </div>
+
+            <div class="pillar">
+                <h3>Cadeia de Fornecimento Responsável</h3>
+                <p>Gerenciamos nossa rede de fornecedores com foco em ética, Direitos Humanos e conformidade ambiental,
+                    garantindo que insumos como agregados, betume e combustíveis sigam critérios rigorosos de
+                    sustentabilidade.</p>
+                <p>Priorizamos parceiros comprometidos com a redução de impactos socioambientais em toda a logística de
+                    transporte e extração.</p>
+            </div>
+        </div>
+
+        <div class="gallery">
+            <div class="image-box wind-energy"></div>
+            <div class="image-box electric-bus"></div>
+            <div class="image-box solar-park"></div>
+        </div>
+    </section>
+    <section class="hero-container">
+        <video class="bg-video" autoplay loop muted playsinline>
+            <source src="videos/video-asfalto.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos em HTML5.
+        </video>
+
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+            <h1>Pronto para transformar seu projeto?</h1>
+            <h2>Solicite seu orçamento agora!</h2>
+            <p>Sua obra merece o melhor! Garanta qualidade e eficiência desde o início.</p>
+            <button class="btn-solicitar" id="btnSolicitar">Solicitar Agora</button>
+        </div>
+    </section>
+
+    <section class="caracteristicas-abresola">
+        <h2>Nossas Especialidades Técnicas</h2>
+        <div class="grid-container">
+            <div class="coluna">
+                <div class="item"><strong>Terraplenagem de Alta Precisão:</strong> Execução rigorosa de cortes, aterros
+                    e compactação com tecnologia de ponta e controle topográfico.</div>
+                <div class="item"><strong>Pavimentação de Performance:</strong> Foco em misturas asfálticas de alta
+                    resistência, durabilidade superior e suporte otimizado para cargas pesadas.</div>
+                <div class="item"><strong>Planejamento Estratégico de Obra:</strong> Projetos detalhados que maximizam a
+                    produtividade e garantem o cumprimento dos prazos.</div>
+                <div class="item"><strong>Segurança e Normas Técnicas:</strong> Rigoroso controle de qualidade em
+                    conformidade com as normas ABNT e diretrizes de segurança do trabalho.</div>
+                <div class="item"><strong>Monitoramento de Evolução:</strong> Acompanhamento físico-financeiro em tempo
+                    real para controle total da obra.</div>
+            </div>
+            <div class="coluna">
+                <div class="item"><strong>Gestão Inteligente de Frota:</strong> Eficiência total na alocação de
+                    maquinário pesado e insumos críticos para evitar desperdícios.</div>
+                <div class="item"><strong>Relatórios de Desempenho:</strong> Métricas precisas de produtividade e
+                    qualidade para transparência total com o cliente.</div>
+                <div class="item"><strong>Gestão de Cronograma:</strong> Detecção proativa de desvios com plano de ação
+                    imediato para manter a obra no fluxo.</div>
+                <div class="item"><strong>Geolocalização de Maquinário:</strong> Controle absoluto da movimentação de
+                    frota através de mapas interativos e telemetria.</div>
+                <div class="item"><strong>Integração Digital:</strong> Conexão direta entre o canteiro de obras e sua
+                    plataforma de gestão corporativa (ERP).</div>
+            </div>
+        </div>
+    </section>
+    <section class="container-aplicacoes">
+        <h2>Principais aplicações</h2>
+
+        <div class="grid-cards">
+            <!-- Card 1 -->
+            <div class="card">
+                <img src="img/protejo1.jpeg" alt="Obras viárias">
+                <h3>Obras viárias</h3>
+                <p>Preparamos desde rodovias, até vias urbanas, garantindo a estabilidade necessária para suportar o
+                    tráfego pesado e as intempéries.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <img src="img/projeto2.jpeg" alt="Loteamentos e áreas urbanas">
+                <h3>Loteamentos e áreas urbanas</h3>
+                <p>Adequamos terrenos para o desenvolvimento de empreendimentos residenciais e comerciais,
+                    proporcionando a base ideal para construções seguras e duráveis.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <img src="img/projeto3.png" alt="Áreas Industriais">
+                <h3>Áreas Industriais</h3>
+                <p>Em áreas industriais e logísticas, garantimos que o terreno esteja preparado para grandes estruturas
+                    e o trânsito de veículos pesados.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+                <img src="img/campo.png" alt="Obras de drenagem">
+                <h3>Obras de drenagem</h3>
+                <p>Terraplenagem associada à drenagem para evitar erosões e infiltrações que possam comprometer a
+                    estrutura da obra.</p>
+            </div>
+        </div>
+
+        <button class="btn-saiba-mais">SAIBA MAIS</button>
+    </section>
+    <script>
+        document.getElementById('btnSolicitar').addEventListener('click', function (e) {
+            e.preventDefault();
+            alert('Redirecionando para o formulário de solicitação...');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.content-wrapper').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.8s ease-out';
+            observer.observe(el);
+        });
+    </script>
+
+    <script>
+        const menuToggle = document.getElementById("mobileMenuBtn");
+        const navMenu = document.getElementById("navMenu");
+        const closeMenuBtn = document.getElementById("closeMenuBtn");
+        const fecharMenu = () => { navMenu.classList.remove("open"); menuToggle.classList.remove("open"); document.body.style.overflow = "auto"; };
+        menuToggle.addEventListener("click", () => { navMenu.classList.add("open"); menuToggle.classList.add("open"); document.body.style.overflow = "hidden"; });
+        if (closeMenuBtn) closeMenuBtn.addEventListener("click", fecharMenu);
+        window.addEventListener("scroll", () => { document.getElementById("mainHeader").classList.toggle("scrolled", window.scrollY > 50); });
+    </script>
+</body>
+
+</html>
